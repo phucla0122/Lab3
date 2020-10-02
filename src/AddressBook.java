@@ -35,6 +35,5 @@ public class AddressBook {
         temp2 = addressBook.removeBuddy();
         System.out.println("Name: "+ temp.getName() + " Address: " + temp.getAddress() + " Phone#: " + temp.getPhonenum());
         System.out.println("Name: "+ temp2.getName() + " Address: " + temp2.getAddress() + " Phone#: " + temp2.getPhonenum());
-
     }
 }
