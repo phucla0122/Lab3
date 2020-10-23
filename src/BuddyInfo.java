@@ -19,5 +19,15 @@ public class BuddyInfo {
     public String getPhonenum() {
         return phonenum;
     }
+
+    public String getDetail(){
+        return "Name: "+ getName() +"\n Address: "+getAddress()+" \n Phone number: "+getPhonenum();
+    }
+
+
+    @Override
+    public String toString() {
+        return getName();
+    }
 }
 
