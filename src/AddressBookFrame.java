@@ -1,19 +1,43 @@
 import javax.swing.*;
+import java.io.*;
+import java.util.Scanner;
 
 public class AddressBookFrame extends JFrame {
 
-    public AddressBookFrame() {
+    public AddressBookFrame(){
         super("Lab 5");
         AddressBook adB = new AddressBook();
         JList<BuddyInfo> jList = new JList<>(adB);
-        //adB.addElement(new BuddyInfo("Rob","123","4666"));
         JMenuBar jMenuBar = new JMenuBar();
         JMenu addressBook = new JMenu("Address Book");
         JMenu buddyInfo = new JMenu("Buddy Info");
+        JMenu menu = new JMenu("Menu");
         JMenuItem addBuddyInfo = new JMenuItem("Add Buddy");
         JMenuItem removeBuddyInfo = new JMenuItem("Remove Buddy");
         JMenuItem newAddressBook = new JMenuItem("New Address Book");
         JMenuItem displayInfo = new JMenuItem("Display Buddy Info");
+        JMenuItem save = new JMenuItem("Save");
+        JMenuItem imp = new JMenuItem("Import");
+        imp.addActionListener(e->{
+            File file = new File("Address.sav");
+            try {
+                Scanner sc = new Scanner(file);
+                while(sc.hasNextLine()){
+                    String ln = sc.nextLine();
+                    BuddyInfo bud = null;
+                    adB.addElement(bud.Import(ln));
+                }
+            } catch (FileNotFoundException ex) {
+                ex.printStackTrace();
+            }
+        });
+        save.addActionListener(e->{
+            try {
+                adB.save(adB);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
         addBuddyInfo.addActionListener(e -> {
             String name, address, phone;
             name = JOptionPane.showInputDialog("Enter contact's mame: ", null);
@@ -42,9 +66,12 @@ public class AddressBookFrame extends JFrame {
         jList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.add(jList);
+        jMenuBar.add(menu);
         jMenuBar.add(addressBook);
         jMenuBar.add(buddyInfo);
         jMenuBar.setVisible(true);
+        menu.add(save);
+        menu.add(imp);
         addressBook.add(newAddressBook);
         addressBook.add(displayInfo);
         buddyInfo.add(addBuddyInfo);
@@ -53,7 +80,7 @@ public class AddressBookFrame extends JFrame {
         this.setSize(500, 500);
         this.setVisible(true);
     }
-    public static void main(String[] args) {
+    public static void main(String[] args){
         new AddressBookFrame();
     }
 }
