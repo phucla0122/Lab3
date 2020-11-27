@@ -18,15 +18,26 @@ public class AddressBookFrame extends JFrame {
         JMenuItem displayInfo = new JMenuItem("Display Buddy Info");
         JMenuItem save = new JMenuItem("Save");
         JMenuItem imp = new JMenuItem("Import");
-        imp.addActionListener(e->{
-            File file = new File("Address.sav");
+        JMenuItem saveAsXML = new JMenuItem("Save as XML");
+        JMenuItem importXML = new JMenuItem("Import XML");
+        importXML.addActionListener(e->{
             try {
-                Scanner sc = new Scanner(file);
-                while(sc.hasNextLine()){
-                    String ln = sc.nextLine();
-                    BuddyInfo bud = null;
-                    adB.addElement(bud.Import(ln));
-                }
+                adB.importFromXmLFile(adB);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
+        saveAsXML.addActionListener(e->{
+            String XML = adB.toXML(adB);
+            try {
+                adB.exportToXmLFile(XML);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
+        imp.addActionListener(e->{
+            try {
+                adB.imp(adB);
             } catch (FileNotFoundException ex) {
                 ex.printStackTrace();
             }
@@ -71,7 +82,9 @@ public class AddressBookFrame extends JFrame {
         jMenuBar.add(buddyInfo);
         jMenuBar.setVisible(true);
         menu.add(save);
+        menu.add(saveAsXML);
         menu.add(imp);
+        menu.add(importXML);
         addressBook.add(newAddressBook);
         addressBook.add(displayInfo);
         buddyInfo.add(addBuddyInfo);
